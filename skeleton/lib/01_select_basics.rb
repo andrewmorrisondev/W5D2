@@ -36,13 +36,23 @@ def per_capita_gdp
   # Show the name and per capita gdp (gdp/population) for each country where
   # the area is over 5,000,000 km^2
   execute(<<-SQL)
-  
     SELECT
-      name, (gdp/population) AS per_capita_gdp
+      area
     FROM
       countries
-    WHERE gdp IS NOT NULL;
-    
+    GROUP BY
+      area
+    HAVING
+      (area > 5000000)
+    WHERE area = (
+      SELECT
+        name, area, (gdp/population) AS per_capita_gdp
+      FROM
+        countries
+      WHERE gdp IS NOT NULL
+    );
+        
+
   SQL
 end
 
