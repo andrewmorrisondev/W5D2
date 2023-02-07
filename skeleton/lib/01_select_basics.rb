@@ -33,33 +33,48 @@ def select_population_of_germany
 end
 
 def per_capita_gdp
+  # WHERE area = (
+  #   SELECT
+  #     name, area, (gdp/population) AS per_capita_gdp
+  #   FROM
+  #     countries
+  #   WHERE gdp IS NOT NULL
+  # );
   # Show the name and per capita gdp (gdp/population) for each country where
   # the area is over 5,000,000 km^2
   execute(<<-SQL)
     SELECT
-      area
+      name, area, (gdp/population) AS per_capita_gdp
     FROM
       countries
-    GROUP BY
-      area
-    HAVING
+    WHERE
       (area > 5000000)
-    WHERE area = (
-      SELECT
-        name, area, (gdp/population) AS per_capita_gdp
-      FROM
-        countries
-      WHERE gdp IS NOT NULL
-    );
-        
+    AND
+      gdp IS NOT NULL
+    ORDER BY
+      per_capita_gdp;
+    SQL
+  end
+  
+# GROUP BY
+#   area
+  def small_and_wealthy
+      # Show the name and continent of countries where the area is less than 2,000
+      # and the gdp is more than 5,000,000,000.
+      
 
-  SQL
-end
 
-def small_and_wealthy
-  # Show the name and continent of countries where the area is less than 2,000
-  # and the gdp is more than 5,000,000,000.
   execute(<<-SQL)
+    SELECT
+      name, continent, area, gdp
+    FROM
+      countries
+    WHERE
+      gdp > 5000000000
+    AND
+      area < 2000
+    ORDER BY
+      area DESC;
   SQL
 end
 
@@ -67,6 +82,20 @@ def scandinavia
   # Show the name and the population for 'Denmark', 'Finland', 'Norway', and
   # 'Sweden'
   execute(<<-SQL)
+    SELECT
+      name, population, continent
+    FROM
+      countries
+    WHERE
+      countries.name = 'Denmark'
+    OR 
+      countries.name = 'Finland'
+    OR
+      countries.name = 'Norway'
+    OR
+      countries.name = 'Sweden';
+    
+
   SQL
 end
 
