@@ -44,7 +44,7 @@ def per_capita_gdp
   # the area is over 5,000,000 km^2
   execute(<<-SQL)
     SELECT
-      name, area, (gdp/population) AS per_capita_gdp
+      name, (gdp/population) AS per_capita_gdp
     FROM
       countries
     WHERE
@@ -66,7 +66,7 @@ def per_capita_gdp
 
   execute(<<-SQL)
     SELECT
-      name, continent, area, gdp
+      name, continent
     FROM
       countries
     WHERE
@@ -95,7 +95,7 @@ def scandinavia
   # 'Sweden'
   execute(<<-SQL)
   SELECT
-    name, population, continent
+    name, population
   FROM
     countries
   WHERE
@@ -107,7 +107,7 @@ def starts_with_g
   # Show each country that begins with the letter G
   execute(<<-SQL)
     SELECT
-      *
+      countries.name
     FROM
       countries
     WHERE
