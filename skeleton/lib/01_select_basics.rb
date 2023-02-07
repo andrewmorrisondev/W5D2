@@ -77,38 +77,57 @@ def per_capita_gdp
       area DESC;
   SQL
 end
+# SELECT
+#   name, population, continent
+# FROM
+#   countries
+# WHERE
+#   countries.name = 'Denmark'
+# OR 
+#   countries.name = 'Finland'
+# OR
+#   countries.name = 'Norway'
+# OR
+#   countries.name = 'Sweden';
 
 def scandinavia
   # Show the name and the population for 'Denmark', 'Finland', 'Norway', and
   # 'Sweden'
   execute(<<-SQL)
-    SELECT
-      name, population, continent
-    FROM
-      countries
-    WHERE
-      countries.name = 'Denmark'
-    OR 
-      countries.name = 'Finland'
-    OR
-      countries.name = 'Norway'
-    OR
-      countries.name = 'Sweden';
-    
-
+  SELECT
+    name, population, continent
+  FROM
+    countries
+  WHERE
+    countries.name IN ('Denmark', 'Finland', 'Norway', 'Sweden');
   SQL
 end
 
 def starts_with_g
   # Show each country that begins with the letter G
   execute(<<-SQL)
+    SELECT
+      *
+    FROM
+      countries
+    WHERE
+      countries.name LIKE 'G%';
   SQL
 end
 
 def just_the_right_size
-  # Show the country and the area in 1000's of square kilometers for countries
+  # Show the country and the area in 1000's of 
+  #   square kilometers for countries
   # with an area between 200,000 and 250,000.
   # BETWEEN allows range checking - note that it is inclusive.
   execute(<<-SQL)
+    SELECT
+      name, (area / 1000) AS square_megameters
+    FROM
+      countries
+    WHERE
+      area BETWEEN 200000 AND 250000;
+
   SQL
+  
 end
