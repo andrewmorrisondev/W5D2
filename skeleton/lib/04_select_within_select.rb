@@ -57,19 +57,7 @@ def richer_than_england
       # capita GDP greater than
   # 'United Kingdom'.
   execute(<<-SQL)
-    SELECT
-      name
-    FROM
-      countries
-    WHERE 
-      (gdp/population) > (
-        SELECT
-          name
-        FROM
-          countries
-        WHERE
-          name= 'United Kingdom'
-      );
+    
   SQL
 end
 
